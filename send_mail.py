@@ -3,8 +3,14 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
 
-USER = "nicowishesyouahappybirthday@gmail.com"
-PASSWORD = "xmebpypmfzhilrnk"
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+USER = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
+
 
 def send_mail(description, header):
     message = MIMEMultipart()
