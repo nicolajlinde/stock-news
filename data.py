@@ -1,12 +1,16 @@
 import requests
 from datetime import timedelta, date
+from dotenv import load_dotenv
+import os
 
-STOCK = "TSLA"
-COMPANY_NAME = "Tesla Inc"
-STOCK_API = "https://www.alphavantage.co/query"
-STOCK_KEY = "ED114Y82ATB0FZG4"
-NEWS_API = "https://newsapi.org/v2/everything"
-NEWS_KEY = "96913bf2f5d14544bbdd71010655b62c"
+load_dotenv()
+
+STOCK = os.getenv('STOCK')
+COMPANY_NAME = os.getenv('COMPANY_NAME')
+STOCK_ENDPOINT = os.getenv('STOCK_ENDPOINT')
+STOCK_KEY = os.getenv('STOCK_KEY')
+NEWS_ENDPOINT = os.getenv('NEWS_ENDPOINT')
+NEWS_KEY = os.getenv('NEWS_KEY')
 
 today = date.today()
 yesterday = today - timedelta(days=1)
@@ -22,7 +26,7 @@ def fetch_stock_data():
         "apikey": STOCK_KEY
     }
 
-    stock_response = requests.get(STOCK_API, params=stock_parameters)
+    stock_response = requests.get(STOCK_ENDPOINT, params=stock_parameters)
     stock_response.raise_for_status()
     stock_data = stock_response.json()
     return stock_data
@@ -37,7 +41,8 @@ def fetch_news_data():
         "pageSize": 3,
         "page": 1
     }
-    news_response = requests.get(NEWS_API, params=news_parameters)
+
+    news_response = requests.get(NEWS_ENDPOINT, params=news_parameters)
     news_response.raise_for_status()
     news_data = news_response.json()
     return news_data
